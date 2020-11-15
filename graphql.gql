@@ -1,0 +1,39 @@
+type House {
+  _id: ID!
+  flatNo: Int!
+}
+
+input HouseInput {
+  no: Int!
+}
+
+type User {
+  _id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  phone: Int
+}
+
+input UserInput {
+  _id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  phone: Int
+}
+
+type RootQuery {
+  houses: [House!]!
+  users: [User!]!
+}
+
+type RootMutation {
+  createHouse(houseInput: HouseInput): House
+  createUser(userInput: UserInput): User
+}
+
+schema {
+  query: RootQuery
+  mutation: RootMutation
+}

@@ -6,9 +6,9 @@ export interface IUser extends Document {
     firstName: string;
     lastName: string;
     email: string;
-    role: IRole;
+    //role: IRole;
     phone: number;
-    guests: Guest[];
+    //guests: Guest[];
 }
 
 export enum IRole {
@@ -46,18 +46,18 @@ export const UserSchema = new Schema({
         default: "",
         lowercase: true
     },
-    role: {
-        type: String,
-        enum: IRole,
-        required: true
-    },
+    // role: {
+    //     type: String,
+    //     enum: IRole,
+    //     required: true
+    // },
     phone: {
         type: Number,
         required: true
     },
-    guests: {
-        type: [GuestType],
-        default: []
-    }
+    // guests: {
+    //     type: [GuestType],
+    //     default: []
+    // }
 })
 
