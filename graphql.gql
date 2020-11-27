@@ -12,25 +12,46 @@ type User {
   firstName: String
   lastName: String
   email: String
-  phone: Int
+  phone: String
+  role: String
+  position: String
+  house: House
 }
 
 input UserInput {
-  _id: ID!
+  firstName: String!
+  lastName: String!
+  email: String
+  phone: String!
+  role: String!
+  position: String
+  houseId: String
+}
+
+input UserUpdateInput {
+  _id: String!
   firstName: String
   lastName: String
   email: String
-  phone: Int
+  phone: String
+  role: String
+  position: String
+  houseId: String
 }
 
 type RootQuery {
   houses: [House!]!
-  users: [User!]!
+  vacants(role: String): [House!]!
+  users(role: String): [User!]!
 }
 
 type RootMutation {
   createHouse(houseInput: HouseInput): House
-  createUser(userInput: UserInput): User
+  createUser(userInput: UserInput): String
+  updateUser(userInput: UserUpdateInput): String
+  deleteUser(userId: String): Int
+  deleteAllUsers: Int
+  deleteHouse(id: String): Int
 }
 
 schema {
