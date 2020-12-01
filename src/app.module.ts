@@ -10,7 +10,15 @@ import { MyGraphql } from './graphql';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.local' }),
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return ({
+          uri: configService.get<string>("MONGO_URL"),
+        });
+      },
+      inject: [ConfigService]
+    }),
     UserModule,
     HouseModule,
   ],

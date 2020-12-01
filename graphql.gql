@@ -9,6 +9,7 @@ input HouseInput {
 
 type User {
   _id: ID!
+  nationalNO: String
   firstName: String
   lastName: String
   email: String
@@ -16,9 +17,16 @@ type User {
   role: String
   position: String
   house: House
+  password: String
+}
+
+type LoggedinUser {
+ accessToken: String!
+ user: User!
 }
 
 input UserInput {
+  nationalNO: String!
   firstName: String!
   lastName: String!
   email: String
@@ -52,6 +60,7 @@ type RootMutation {
   deleteUser(userId: String): Int
   deleteAllUsers: Int
   deleteHouse(id: String): Int
+  login(nationalNO: String!, password: String!): LoggedinUser
 }
 
 schema {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Role } from 'src/shared/dto.models';
+import { Role } from 'src/users/user.model';
 import { UserService } from 'src/users/users.service';
 import { IHouse } from './house.model';
 
@@ -13,6 +13,7 @@ export class HouseService {
   ) {}
 
   async create(flatNo: number): Promise<IHouse> {
+    console.log("trying to create house", flatNo);
     const house = new this.houseModel({ flatNo: flatNo });
     const result = await house.save();
     return result;

@@ -1,4 +1,4 @@
-import { Role } from './dto.models';
+import { Role } from "src/users/user.model";
 
 export function getRole(s: string): Role {
   let r: Role = Role.none;

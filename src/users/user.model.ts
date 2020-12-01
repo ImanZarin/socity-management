@@ -1,9 +1,9 @@
 import { Schema, Document, Types } from 'mongoose';
 import { IHouse } from 'src/houses/house.model';
-import { Role } from 'src/shared/dto.models';
 
 export interface IUser extends Document {
   _id: string;
+  nationalNO: string;
   password: string;
   firstName: string;
   lastName: string;
@@ -12,7 +12,16 @@ export interface IUser extends Document {
   phone: string;
   position: string;
   house: Types.ObjectId | IHouse;
+  newPassNeeded: boolean;
   //guests: Guest[];
+}
+
+export enum Role {
+  owner = 'owner',
+  tenant = 'tenant',
+  admin = 'admin',
+  staff = 'staff',
+  none = 'none',
 }
 
 // export type Guest = {
@@ -26,6 +35,13 @@ export interface IUser extends Document {
 // }
 
 export const UserSchema = new Schema({
+  nationalNO: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 20,
+    index: true,
+  },
   password: {
     type: String,
     required: true,
@@ -33,14 +49,10 @@ export const UserSchema = new Schema({
   firstName: {
     type: String,
     required: true,
-    lowercase: true,
-    index: true,
   },
   lastName: {
     type: String,
     required: true,
-    lowercase: true,
-    index: true,
   },
   email: {
     type: String,
@@ -63,7 +75,11 @@ export const UserSchema = new Schema({
   house: {
     type: Schema.Types.ObjectId,
     required: false,
-    ref: "House"
+    ref: 'House',
+  },
+  newPassNeeded: {
+    type: Boolean,
+    default: true,
   },
   // guests: {
   //     type: [GuestType],

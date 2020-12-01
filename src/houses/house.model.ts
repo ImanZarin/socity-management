@@ -1,5 +1,4 @@
-import { Document, Schema, Types } from 'mongoose';
-import { IUser } from 'src/users/user.model';
+import { Document, Schema } from 'mongoose';
 
 export interface IHouse extends Document {
   flatNo: number;
