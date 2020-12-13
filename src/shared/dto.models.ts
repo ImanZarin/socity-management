@@ -7,6 +7,8 @@ export enum ResultErrorEnum {
   wrongPass = 'WRONG_PASSWORD',
   notSigned = 'NOT_SIGNED_IN',
   notPermit = 'NO_PERMISSION',
+  repetedOption = 'OPTIONS_WITH_SAME_NAME',
+  noOption = "OPTION_NOT_EXIST"
 }
 
 export type LoggedinUser = {

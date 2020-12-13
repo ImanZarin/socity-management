@@ -13,7 +13,6 @@ export class HouseService {
   ) {}
 
   async create(flatNo: number): Promise<IHouse> {
-    console.log("trying to create house", flatNo);
     const house = new this.houseModel({ flatNo: flatNo });
     const result = await house.save();
     return result;

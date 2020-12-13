@@ -1,3 +1,31 @@
+type Option {
+  name: String!
+  Img: String
+  percent: Int
+}
+
+type Election {
+  _id: ID!
+  title: String!
+  start: String!
+  end: String!
+  options: [Option!]!
+  hasImg: Boolean
+}
+
+input OptionInput {
+  name: String!
+  imgUrl: String
+}
+
+input ElectionInput {
+  title: String!
+  start: String!
+  end: String!
+  options: [OptionInput]!
+  hasImg: Boolean
+}
+
 type House {
   _id: ID!
   flatNo: Int!
@@ -47,10 +75,31 @@ input UserUpdateInput {
   houseId: String
 }
 
+input VoteInput {
+  electionId: String!
+  vote: String!
+}
+
+type Vote {
+  electionId: String!
+  userId: String!
+  vote: String!
+  _id: String
+}
+
+type VoteElection {
+  elections: [Election!]
+  votes: [Vote!] 
+}
+
 type RootQuery {
   houses: [House!]!
-  vacants(role: String): [House!]!
-  users(role: String): [User!]!
+  vacants(role: String!): [House!]!
+  users(role: String!): [User!]!
+  user: User!
+  elections: [Election!]!
+  votes(electionId: String!): [Vote!]!
+  vote: VoteElection
 }
 
 type RootMutation {
@@ -59,8 +108,12 @@ type RootMutation {
   updateUser(userInput: UserUpdateInput): String
   deleteUser(userId: String): Int
   deleteAllUsers: Int
-  deleteHouse(id: String): Int
+  deleteHouse(id: String!): Int
   login(nationalNO: String!, password: String!): LoggedinUser
+  createElection(election: ElectionInput): String
+  deleteElection(id: String!): Int
+  updateVote(voteInput: VoteInput): VoteElection
+  deleteVote(id: String!): Int
 }
 
 schema {

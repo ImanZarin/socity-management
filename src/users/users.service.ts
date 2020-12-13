@@ -50,6 +50,7 @@ export class UserService {
       role: role,
       phone: phone,
       position: position,
+      house: houseId,
     });
     const result = await user.save();
     return result._id;
@@ -96,7 +97,9 @@ export class UserService {
   }
 
   async getUsersByNationalNO(id: string): Promise<IUser> {
-    const user = await this.userModel.findOne({ nationalNO: id });
+    const user = await this.userModel
+      .findOne({ nationalNO: id })
+      .populate('house', '-password');
     return user;
   }
 

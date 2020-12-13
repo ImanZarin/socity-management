@@ -6,6 +6,8 @@ import { UserModule } from './users/users.module';
 import { HouseModule } from './houses/houses.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MyGraphql } from './graphql';
+import { ElectionModule } from './elections/elections.module';
+import { ElectionUserModule } from './electionuser/electionuser.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { MyGraphql } from './graphql';
     }),
     UserModule,
     HouseModule,
+    ElectionModule,
+    ElectionUserModule,
   ],
   controllers: [AppController],
   providers: [AppService, MyGraphql],
