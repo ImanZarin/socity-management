@@ -8,6 +8,8 @@ import { ElectionService } from './elections/election.service';
 import { ElectionOption, IElection } from './elections/election.model';
 import { ElectionUserService } from './electionuser/electionuser.service';
 import { IElectionUser } from './electionuser/electionusers.model';
+import { DocService } from './docs/docs.service';
+import { IDoc, TransferringDoc } from './docs/doc.model';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { buildSchema } = require('graphql');
@@ -19,6 +21,7 @@ export class MyGraphql {
     private readonly userService: UserService,
     private readonly electionService: ElectionService,
     private readonly electionuserService: ElectionUserService,
+    private readonly docService: DocService,
   ) {}
 
   async guardSigned(req: any): Promise<IUser> {
@@ -57,11 +60,11 @@ export class MyGraphql {
       return this.userService.getUsersForRole(args.role);
     },
     user: async (args, req) => {
-      console.log("user is: ", req.nationalNO);
+      console.log('user is: ', req.nationalNO);
       const u = await this.guardSigned(req);
       return u;
     },
-    login: async (args) : Promise<LoggedinUser> => {
+    login: async (args): Promise<LoggedinUser> => {
       return this.userService.login(args.nationalNO, args.password);
     },
     createUser: async (args, req) => {
@@ -161,6 +164,22 @@ export class MyGraphql {
     votes: async (args, req): Promise<IElectionUser[]> => {
       return await this.electionuserService.getForElection(args.electionId);
     },
+    createAndUpdateDoc: async (args, req): Promise<string> => {
+      console.log('creating new document', args.docInput.id);
+      return await this.docService.createAndUpdate(
+        args.docInput.title,
+        args.docInput.description,
+        args.docInput.image,
+        args.docInput.id,
+        args.docInput.duration,
+      );
+    },
+    docs: async (args, req): Promise<TransferringDoc[]> => {
+      return await this.docService.getRecent();
+    },
+    deleteDoc: async (args, req): Promise<boolean> => {
+      return await this.docService.delete(args.id);
+    }
   };
 }
 

@@ -24,16 +24,26 @@ async function bootstrap() {
           nationalNO: string;
           phone: string;
         };
-        console.log('id is: ', nationalNO);
+        //console.log('id is: ', nationalNO);
         req.nationalNO = nationalNO;
         req.phone = phone;
       } catch (err) {
-        console.log('Not recognised:', err);
-        //throw new Error("not recognised");        
+        //console.log('Not recognised:', err);
+        //throw new Error("not recognised");
       }
     }
     req.next();
   };
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const bodyParser = require('body-parser');
+  app.use(bodyParser({limit: '50mb'}));
+  // app.use(
+  //   bodyParser.urlencoded({
+  //     limit: '50mb',
+  //     extended: true,
+  //     parameterLimit: 50000,
+  //   }),
+  // );
   app.use(cors.corsAll);
   app.use(loggingMiddleware);
   app.use(
