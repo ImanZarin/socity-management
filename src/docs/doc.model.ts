@@ -27,7 +27,6 @@ export interface TransferringImage {
     description: string;
     image: TransferringImage;
     date: Date;
-    end: Date;
   }
 
 enum ImageTypes {
@@ -63,8 +62,5 @@ export const DocSchema = new Schema({
   date: {
     type: Date,
     required: true,
-  },
-  end: {
-    type: Date,
   },
 });

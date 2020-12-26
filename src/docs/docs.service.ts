@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IDoc, MyImage, TransferringDoc } from './doc.model';
-import * as fs from 'fs';
-import { title } from 'process';
 
 @Injectable()
 export class DocService {
@@ -33,15 +31,13 @@ export class DocService {
         re.end = new Date(d.setDate(d.getDate() + duration));
       }
     } else {
-      if(!duration) duration = 0;
+      if (!duration) duration = 0;
       const today = new Date();
-      const end = new Date(today);
       re = await new this.docModel({
         image: image,
         title: title,
         description: desc,
         date: today,
-        end: end.setDate(today.getDate() + duration),
       });
     }
     await re.save();
@@ -53,23 +49,28 @@ export class DocService {
     return re !== null;
   }
 
-  async getRecent(): Promise<TransferringDoc[]> {
-    const docs = await this.docModel.find().exec();
-    docs.filter(d => !d.end || d.end > new Date());
-    const newList = docs.map(doc => {
-      return {
-        title: doc.title,
-        _id: doc._id,
-        description: doc.description,
-        image: {
-          data: doc.image.data.toString('base64'),
-          contentType: doc.image.contentType,
-          name: doc.image.name,
-        },
-        date: doc.date,
-        end: doc.end,
-      };
-    });
-    return newList.sort((a, b) => (a.date > b.date ? -1 : 1));
+  async getRecent(last: number): Promise<TransferringDoc[]> {
+    const docs = await this.docModel.find().sort({"date": -1}).limit(last).exec();
+    const newList = docs.map(doc => this.convertToTransferingDoc(doc));
+    return newList;
+  }
+
+  async getOne(id: string): Promise<TransferringDoc> {
+    const d = await this.docModel.findById(id);
+    return this.convertToTransferingDoc(d);
+  }
+
+  private convertToTransferingDoc(param: IDoc): TransferringDoc {
+    return {
+      title: param.title,
+      _id: param._id,
+      description: param.description,
+      image: {
+        data: param.image.data.toString('base64'),
+        contentType: param.image.contentType,
+        name: param.image.name,
+      },
+      date: param.date,
+    };
   }
 }

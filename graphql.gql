@@ -127,7 +127,8 @@ type RootQuery {
   elections: [Election!]!
   votes(electionId: String!): [Vote!]!
   vote: VoteElection
-  docs: [Doc!]
+  docs(last: Int): [Doc!]
+  doc(docId: String!): Doc
 }
 
 type RootMutation {

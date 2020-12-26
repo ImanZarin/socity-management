@@ -36,14 +36,14 @@ async function bootstrap() {
   };
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const bodyParser = require('body-parser');
-  app.use(bodyParser({limit: '50mb'}));
-  // app.use(
-  //   bodyParser.urlencoded({
-  //     limit: '50mb',
-  //     extended: true,
-  //     parameterLimit: 50000,
-  //   }),
-  // );
+  //app.use(bodyParser({limit: '50mb'}));
+  app.use(
+    bodyParser.urlencoded({
+      limit: '5mb',
+      extended: true,
+    }),
+  );
+  app.use(bodyParser.json());
   app.use(cors.corsAll);
   app.use(loggingMiddleware);
   app.use(

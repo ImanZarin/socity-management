@@ -165,7 +165,6 @@ export class MyGraphql {
       return await this.electionuserService.getForElection(args.electionId);
     },
     createAndUpdateDoc: async (args, req): Promise<string> => {
-      console.log('creating new document', args.docInput.id);
       return await this.docService.createAndUpdate(
         args.docInput.title,
         args.docInput.description,
@@ -175,7 +174,10 @@ export class MyGraphql {
       );
     },
     docs: async (args, req): Promise<TransferringDoc[]> => {
-      return await this.docService.getRecent();
+      return await this.docService.getRecent(args.last);
+    },
+    doc: async (args, req): Promise<TransferringDoc> => {
+      return await this.docService.getOne(args.docId);
     },
     deleteDoc: async (args, req): Promise<boolean> => {
       return await this.docService.delete(args.id);
