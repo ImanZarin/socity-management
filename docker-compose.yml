@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+    app-backend:
+        container_name: docker_society_management
+        restart: always
+        build: .
+        # networks: 
+        #     - society-management
+        environment: 
+            - MONGO_URL=mongodb://mongo:27017/society-management
+            - BACKEND_PORT=3005
+            - JWT_SECRET_KEY=4705921A84E362F5D4A56EE755078E090FC480945BB6C069EF51D77A1AF8E4D3
+            - JWT_EXPIRE_TIME=10h
+        ports: 
+            - '3005:3005'
+        links: 
+            - mongo
+        volumes: 
+            - ./src:/app/src
+            - ./node_modules:/app/node_modules
+        entrypoint: ["npm","run","start:dev"]
+    mongo:
+        container_name: mongo_society_management
+        image: mongo:4.2.9
+        volumes: 
+            - db-data:/data/db
+        # networks: 
+        #     - society-management
+volumes: 
+    db-data:
+# networks: 
+#     society-management:
+#         name: society-management
