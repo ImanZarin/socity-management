@@ -1,11 +1,11 @@
-version: '3.8'
+version: '3.7'
 services:
     app-backend:
         container_name: docker_society_management
         restart: always
         build: .
-        # networks: 
-        #     - society-management
+        networks: 
+            - society-management
         environment: 
             - MONGO_URL=mongodb://mongo:27017/society-management
             - BACKEND_PORT=3005
@@ -17,17 +17,17 @@ services:
             - mongo
         volumes: 
             - ./src:/app/src
-            - ./node_modules:/app/node_modules
-        entrypoint: ["npm","run","start:dev"]
+            # - ./node_modules:/app/node_modules
+        entrypoint: ["npm","run","start:debug"]
     mongo:
         container_name: mongo_society_management
         image: mongo:4.2.9
         volumes: 
             - db-data:/data/db
-        # networks: 
-        #     - society-management
+        networks: 
+            - society-management
 volumes: 
     db-data:
-# networks: 
-#     society-management:
-#         name: society-management
+networks: 
+    society-management:
+        name: society-management
